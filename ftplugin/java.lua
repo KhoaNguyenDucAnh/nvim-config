@@ -53,7 +53,13 @@ local config = {
 		vim.fn.expand("~/.cache/jdtls-workspace/") .. workspace_dir,
 	},
 	settings = {
-		--["java.format.settings.url"] = vim.fn.expand("~/formatter.xml"),
+		java = {
+			format = {
+				settings = {
+					url = "~/.local/share/nvim/mason/packages/google-java-format/google-java-format",
+				},
+			},
+		},
 	},
 	root_dir = vim.fs.dirname(vim.fs.find({ "pom.xml", ".git" }, { upward = true })[1]),
 	init_options = {
