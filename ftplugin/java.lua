@@ -1,11 +1,10 @@
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
-local jdtls_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/mason/packages/jdtls/")
+local jdtls_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/jdtls")
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-local workspace_dir = vim.fn.resolve(vim.fn.stdpath("cache") .. "/jdtls-workspaces/" .. project_name)
+local workspace_path = vim.fn.resolve(vim.fn.stdpath("cache") .. "/jdtls/" .. project_name)
 
-vim.notify(jdtls_path)
-vim.notify(workspace_dir)
+local lombok_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lombok/lombok.jar")
 
 local config = {
   -- The command that starts the language server
@@ -28,6 +27,11 @@ local config = {
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
 
+    -- lombok
+    -- must be before -jar
+    -- https://github.com/LazyVim/LazyVim/discussions/275
+    "-javaagent:" .. lombok_path,
+
     -- 💀
     "-jar",
     vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
@@ -47,7 +51,7 @@ local config = {
     -- 💀
     -- See `data directory configuration` section in the README
     "-data",
-    workspace_dir,
+    workspace_path,
     -- "/path/to/unique/per/project/workspace/folder",
   },
 
