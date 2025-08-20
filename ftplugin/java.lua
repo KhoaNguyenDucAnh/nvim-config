@@ -67,7 +67,26 @@ local config = {
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
-    java = {},
+    java = {
+      autobuild = true,
+      configuration = {
+        updateBuildConfiguration = "automatic",
+      },
+      contentProvider = { preferred = "fernflower" },
+
+      eclipse = { downloadSources = true },
+      format = {
+        enabled = true,
+        url = vim.fn.resolve(vim.fn.stdpath("config") .. "/eclipse-java-google-style.xml"),
+        profile = "GoogleStyle",
+      },
+      maven = { downloadSources = true },
+      references = { includeAccessors = true, includeDecompiledSources = true },
+      saveActions = {
+        organizeImports = true,
+      },
+      signatureHelp = { enabled = true },
+    },
   },
 
   -- Language server `initializationOptions`
@@ -79,6 +98,19 @@ local config = {
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
     bundles = {},
+  },
+
+  capabilities = {
+    workspace = {
+      configuration = true,
+    },
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true,
+        },
+      },
+    },
   },
 }
 -- This starts a new client & server,
